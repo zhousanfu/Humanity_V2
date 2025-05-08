@@ -1,4 +1,3 @@
-# https://testnet.humanity.org/api/rewards/balance
 import os
 import sys
 import time
@@ -30,7 +29,7 @@ class Humanity:
             async with session.get(url, headers=self.headers, proxy=self.proxie) as response:
                 if response.status == 200:
                     response_json = await response.json()
-                    print((f"humanity -ey***{token[-4:]}- response: {response_json}"))  
+                    print((f"humanity - response: {response_json}"))  
 
     async def post_check(self, retries=5):
         url = f'{self.base_url}/api/rewards/daily/check'
@@ -75,12 +74,14 @@ class Humanity:
 
     async def run(self):
         check_v = await self.post_check()
-        await asyncio.sleep(1)
+        await asyncio.sleep(3)
         if check_v:
+            time.sleep(10)
             await self.post_claim()
-            await asyncio.sleep(1)
+            await asyncio.sleep(3)
             await self.get_balance()
-            await asyncio.sleep(1)
+            await asyncio.sleep(3)
+
 
 
 if __name__ == '__main__':
